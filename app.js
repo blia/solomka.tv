@@ -35,6 +35,14 @@ app.get('/', function(req, res){
   });
 });
 
+
+app.get('/video', function(req, res){
+  res.render('video', {
+    title: 'Solomka.tv',
+	roomName: 'Тестовый сеанс'
+  });
+});
+	
 app.get('/chat', function(req, res){
   res.render('chat', {
     title: 'Solomka.tv::chat'
