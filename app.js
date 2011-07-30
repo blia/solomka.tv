@@ -14,6 +14,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.compiler({ src: __dirname + '/public', enable: ['less'] }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -31,6 +32,12 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Solomka.tv'
+  });
+});
+
+app.get('/chat', function(req, res){
+  res.render('chat', {
+    title: 'Solomka.tv::chat'
   });
 });
 
