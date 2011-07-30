@@ -1,0 +1,65 @@
+//- Jade version by Kirill Yakovenko
+!!!5
+//- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+//if lt IE 7
+	html(lang="ru").no-js.ie6
+//if IE 7
+	html(lang="ru").no-js.ie7
+//if IE 8
+	html(lang="ru").no-js.ie8
+//- @TODO
+//[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]
+head
+	meta(charset="utf-8")
+	
+	//- Всегда пытаемся использовать последний движок IE и Chrome frame. Удалите, если спользуете эти указания в .htaccess
+	meta(http-equiv="X-UA-Compatible",content="IE=edge,chrome=1")
+	
+	title=title
+	meta(name="description", content="")
+	meta(name="author", content="")
+	
+	//- Оптимизируем для экранов мобильников: j.mp/bplateviewport
+	meta(name="viewport", content="width=device-width, initial-scale=1.0")
+	
+	//- Разместите favicon.ico и apple-touch-icon.png в корне вашего сайта и удалите следующие 2 указателя
+	link(rel="shortcut icon", href="/favicon.ico")
+	link(rel="apple-touch-icon", href="/apple-touch-icon.png")
+
+	//- CSS : implied media="all"
+	link(rel="stylesheet", href="/css/style.css")
+	
+	//- Раскомментируйте если вы поддерживаете мобильники с не очень хорошими браузерами
+	// link(rel="stylesheet", media="handheld", href="css/handheld.css?v=2")
+	
+	//- Весь JavaScript внизу, за исключением Modernizr, который включает html5 элементы и и определяет поддерживаемые функции
+	script(src="js/libs/modernizr-1.7.min.js")
+	
+body
+	section#container
+		header
+			h1!= title
+		#main(role="main")!= body
+		footer
+	
+	//- Javascript в самом низу для более быстрой загрузки страницы
+	//- Пытаемся загрузить jQuery из CDN Google, в случае неудачи берем локальную версию
+	script(src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js")
+	script
+		window.jQuery \|\| document.write("<script src='js/libs/jquery-1.5.1.min.js'>\\x3C/script>")
+	//- скрипты объединенные и минифицированные с помощью ant скрипта
+	script(src="js/plugins.js")
+	script(src="js/script.js")
+	//- всё
+	
+	//if lt IE 7
+		script(src="js/libs/dd_belatedpng.js")
+		script
+			DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images 
+	//- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID
+	script
+//-		var _gaq=[["_setAccount","UA-XXXXX-X"],["_trackPageview"]];
+//-		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
+//-		g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
+//-		s.parentNode.insertBefore(g,s)}(document,"script"));
+//[if (gte IE 9)|!(IE)]><!--> </html> <!--<![endif]
