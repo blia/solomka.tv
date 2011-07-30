@@ -14,6 +14,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.compiler({ src: __dirname + '/public', enable: ['less'] }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
@@ -34,10 +35,17 @@ app.get('/', function(req, res){
   });
 });
 
+
 app.get('/video', function(req, res){
   res.render('video', {
     title: 'Solomka.tv',
 	roomName: 'Тестовый сеанс'
+  });
+});
+	
+app.get('/chat', function(req, res){
+  res.render('chat', {
+    title: 'Solomka.tv::chat'
   });
 });
 
