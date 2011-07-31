@@ -8,13 +8,16 @@ var express = require('express');
 var app = module.exports = express.createServer();
 
 // Configuration
-
+var RedisStore = require('connect-redis')(express);
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.compiler({ src: __dirname + '/public', enable: ['less'] }));
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: "boo", store: new RedisStore }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
