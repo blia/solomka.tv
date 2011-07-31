@@ -47,6 +47,7 @@ app.get('/video', function(req, res){
 });
 	
 app.get('/chat', function(req, res){
+  console.log(nicknames);
   res.render('chat', {
     title: 'Solomka.tv::chat'
   });
@@ -55,12 +56,34 @@ app.get('/chat', function(req, res){
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
+// MongoDB
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/solomkatv');
+
+var Schema = mongoose.Schema
+  , ObjectId = Schema.ObjectId;
+
+var ChatMessage = new Schema({
+  messageId : ObjectId,
+  author : { type: String, default: 'anonymous' },
+  message : String,
+  date  :  { type: Date, default: Date.now }
+});
+
+// Soket.io
+
 var io = require('socket.io').listen(app);
 
 var nicknames = {};
 
 io.sockets.on('connection', function (socket) {
   socket.on('user message', function (msg) {
+    var chatMessage = mongoose.model('ChatMessage', ChatMessage);
+    var chatMessageInstance = new chatMessage();
+    chatMessageInstance.author = socket.nickname;
+    chatMessageInstance.message = msg;
+    chatMessageInstance.save(function (err) {
+    });
     socket.broadcast.emit('user message', socket.nickname, msg);
   });
 
@@ -82,4 +105,5 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('announcement', socket.nickname + ' disconnected');
     socket.broadcast.emit('nicknames', nicknames);
   });
+  
 });

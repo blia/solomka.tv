@@ -29,7 +29,11 @@
 	socket.on('error', function (e) {
 		message('System', e ? e : 'A unknown error occurred');
 	});
-
+	
+	socket.on('nickname', function () {
+			console.log('boo');
+		});
+	
 	function message (from, msg) {
 		$('#lines').append($('<p>').append($('<b>').text(from), msg));
 	}
@@ -37,12 +41,13 @@
 	// dom manipulation
 	$(function () {
 		$('#set-nickname').submit(function (ev) {
+			console.log('boo1');
 			socket.emit('nickname', $('#nick').val(), function (set) {
-		if (!set) {
-			clear();
-			return $('#chat').addClass('nickname-set');
-		}
-		$('#nickname-err').css('visibility', 'visible');
+				if (!set) {
+					clear();
+					return $('#chat').addClass('nickname-set');
+				}
+				$('#nickname-err').css('visibility', 'visible');
 			});
 			return false;
 		});
